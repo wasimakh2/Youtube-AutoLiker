@@ -1,14 +1,16 @@
+from configparser import ConfigParser
 import os
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 class Youtube:
 
     def __init__(self,username,password,clink):
         self.chrome_options = Options()
         self.chrome_options.add_argument("--incognito")
-        self.youtube_bot = webdriver.Chrome(options = self.chrome_options)
+        self.youtube_bot = webdriver.Chrome(ChromeDriverManager().install(),options = self.chrome_options)
         self.channel_link = clink
         self.username = username
         self.password = password
@@ -79,10 +81,17 @@ class Youtube:
                 print("Already Liked !!", link)
         print("All videos Liked !!")
 
+#Get the configparser object
+config_object = ConfigParser()
+config_object.read("config.ini")
 
-username = os.environ['GMAIL_USERNAME']
-password = os.environ['GMAIL_PASSWORD']
-channel_videos_link = 'https://www.youtube.com/channel/UCcTIUs33YZgMuJFIRrVR92A/videos'
+#Get the password
+userinfo = config_object["USERINFO"]
+# print("Password is {}".format(userinfo["password"]))
+
+username = userinfo['GMAIL_USERNAME']
+password = userinfo['GMAIL_PASSWORD']
+channel_videos_link = 'https://www.youtube.com/channel/UCS9nmu42YqXQSUloS94ewdQ/videos'
 
 auto_user = Youtube(username, password, channel_videos_link)
 auto_user.login_to_gmail()
