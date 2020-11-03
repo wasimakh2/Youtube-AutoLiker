@@ -4,6 +4,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 class Youtube:
 
@@ -28,14 +30,24 @@ class Youtube:
             time.sleep(2)
             youtube_bot.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input').send_keys(self.password)
             youtube_bot.find_element_by_xpath('//*[@id="passwordNext"]/div/button/div[2]').click()
-            time.sleep(10)
+            # time.sleep(10)
+            wait = WebDriverWait(youtube_bot, 60)
+            # wait.until(EC.title_is("title"))
+            wait.until(EC.title_contains("stackoverflow.com"))
+
+
         except Exception as identifier:
             print(identifier)
         
         # We are now logged into Youtube :)
         youtube_bot.get(self.channel_link)
         print("\n Logged Into Youtube")
-
+    def CloseChrome():
+        """
+        docstring
+        """
+        youtube_bot.quit()
+        
     def load_all_videos(self):
         youtube_bot = self.youtube_bot
         #Initial scroll
