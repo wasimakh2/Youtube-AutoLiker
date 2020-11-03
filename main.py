@@ -15,18 +15,21 @@ class Youtube:
 
     def login_to_gmail(self):
         youtube_bot = self.youtube_bot
-
-        #Using a third party sign in as google sign-in is protected heavily :(
-        youtube_bot.get('https://stackoverflow.com/users/signup')
-        #Make the bot mimic human behaviour :P
-        youtube_bot.find_element_by_xpath('//*[@id="openid-buttons"]/button[1]').click()
-        youtube_bot.find_element_by_xpath('//*[@id="identifierId"]').send_keys(self.username)
-        time.sleep(2)
-        youtube_bot.find_element_by_xpath('//*[@id="identifierNext"]/div/button/div[2]').click()
-        time.sleep(2)
-        youtube_bot.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input').send_keys(self.password)
-        youtube_bot.find_element_by_xpath('//*[@id="passwordNext"]/div/button/div[2]').click()
-        time.sleep(2)
+        try:
+            #Using a third party sign in as google sign-in is protected heavily :(
+            youtube_bot.get('https://stackoverflow.com/users/signup')
+            #Make the bot mimic human behaviour :P
+            youtube_bot.find_element_by_xpath('//*[@id="openid-buttons"]/button[1]').click()
+            youtube_bot.find_element_by_xpath('//*[@id="identifierId"]').send_keys(self.username)
+            time.sleep(2)
+            youtube_bot.find_element_by_xpath('//*[@id="identifierNext"]/div/button/div[2]').click()
+            time.sleep(2)
+            youtube_bot.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input').send_keys(self.password)
+            youtube_bot.find_element_by_xpath('//*[@id="passwordNext"]/div/button/div[2]').click()
+            time.sleep(10)
+        except Exception as identifier:
+            print(identifier)
+        
         # We are now logged into Youtube :)
         youtube_bot.get(self.channel_link)
         print("\n Logged Into Youtube")
@@ -79,7 +82,7 @@ class Youtube:
 
 username = os.environ['GMAIL_USERNAME']
 password = os.environ['GMAIL_PASSWORD']
-channel_videos_link = 'https://www.youtube.com/c/AIEngineeringLife/videos'
+channel_videos_link = 'https://www.youtube.com/channel/UCcTIUs33YZgMuJFIRrVR92A/videos'
 
 auto_user = Youtube(username, password, channel_videos_link)
 auto_user.login_to_gmail()
