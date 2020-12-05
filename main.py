@@ -42,6 +42,7 @@ class Youtube:
         # We are now logged into Youtube :)
         youtube_bot.get(self.channel_link)
         print("\n Logged Into Youtube")
+
     def CloseChrome():
         """
         docstring
@@ -111,3 +112,4 @@ auto_user.load_all_videos()
 auto_user.get_all_links()
 auto_user.like_all_videos()
 
+auto_user.CloseChrome()
